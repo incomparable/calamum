@@ -1,0 +1,120 @@
+name: 'Calamum Rest Api'
+url: 'http://calamum-sample:3000/api'
+version: '1.0'
+copyright: "2015"
+description: 'Calamum is a simple ruby build program to generate a REST API documentation from a YAML file definition<br>testing tis thing <b> test bold </b>'
+authentication: 'You authenticate to the Stripe API by providing one of your API keys in the request.<br> You can manage your API keys from your account. You can have multiple API keys active at one time. Your API keys carry many privileges, so be sure to keep them secret!'
+errors:
+  http_errors:
+   -
+    code: 200
+    text: "OK"
+    description: "Success"
+   -
+    code: 304
+    text: "Not Modified"
+    description: "There was no new data to return."
+   -
+    code: 400
+    text: "Bad Request"
+    description: "The request was invalid or cannot be otherwise served"
+  api_errors:
+   -
+    code: 32
+    text: "Could not authenticate you"
+    description: "Your call could not be completed as dialed"
+   -
+    code: 34
+    text: "Sorry, that page does not exist"
+    description: "Corresponds with an HTTP 404 - the specified resource was not found."
+   -
+    code: 64
+    text: "Your account is suspended"
+    description: "Corresponds with an HTTP 403"
+
+resources:
+    user:   
+     -
+      uri: '/users'
+      action: 'get'
+      authentication: 'false'
+      headers:
+        content_type: 'application/json'
+        Accept: "application/vnd.example.v1"
+      description: 'Get the users list'
+      response: {"users":[{"id":"12354","name":"test", "mail":"test@test.com"}, {"id":"123789","name":"test2", "mail":"test@test.com"}]}
+     -
+      uri: '/users/:id'
+      action: 'get'
+      authentication: 'false'
+      headers:
+        content_type: 'application/json'
+        content_language: 'en-US'
+      params:
+        id: 
+          type: 'String'
+          description: 'User id'
+          required: true
+      description: 'get the user'
+      response: {"user": {"name": "test", "mail": "test@test.com"}}
+
+     -
+      uri: '/users'
+      action: 'post'
+      description: 'Create a new user'
+      authentication: 'false'
+      headers:
+        content_type: 'application/json'
+        content_language: 'en-US'
+      params:
+        name:
+          type: 'String'
+          description: 'User name'
+          required: false
+        email:
+          type: 'String'
+          description: 'User email'
+          required: true
+      request: {"name": "test", "mail": "test@test.com"}
+      response: {"id": 12345, "name": "test", "mail": "test@test.com"}
+     -
+      uri: '/users/:id'
+      action: 'put'
+      description: 'Update the user'
+      headers:
+        content_type: 'application/json'
+        content_language: 'en-US'
+      params:
+        id:
+          type: 'String'
+          description: 'User id'
+          required: true
+        name:
+          type: 'String'
+          description: 'User name'
+          required: false
+        email:
+          type: 'String'
+          description: 'User email'
+          required: true
+      request: {"id": 12345, "name": "test", "mail": "test@test.com"}
+      response: {"id": 12345, "name": "test", "mail": "test@test.com"}
+     -
+      uri: '/users/:id'
+      action: 'delete'
+      description: 'Delete the user'
+      headers:
+        content_type: 'application/json'
+        content_language: 'en-US'
+      params:
+        id: 
+          type: 'String'
+          description: 'User id'
+          required: true
+    group:
+     -
+      uri: '/groups'
+      action: 'get'
+      headers:
+        content_type: 'application/json'
+      description: 'Get the list of groups'
